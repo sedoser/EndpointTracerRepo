@@ -10,10 +10,12 @@ namespace EndpointTracer.DataAccess
 {
     public class EndpointTracerContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public EndpointTracerContext(DbContextOptions<EndpointTracerContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(connectionString: @"Server=localhost;Database=EndpointTracerDb;User Id=SA;Password=strongPwd123+;TrustServerCertificate=Yes;");                                                                    
+
         }
+        
 
         public DbSet<User> Users { get; set; }
         public DbSet<Certificate> Certificates { get; set; }    

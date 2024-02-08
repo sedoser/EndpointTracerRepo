@@ -1,9 +1,22 @@
+using EndpointTracer.Biz;
+using EndpointTracer.DataAccess;
+using EndpointTracer.DataAccess.Repositories;
+using EndpointTracer.DataAccess.Uow;
+using EndpointTracer.Model;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped(typeof(IRepository<>),typeof(EfEntityRepositoryBase<>));
+builder.Services.AddScoped<IRepository<Certificate>, EfEntityRepositoryBase<Certificate>>();
+builder.Services.AddScoped<ICertificateService, CertificateService>();
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddDbContext<EndpointTracerContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MssqlDb")));
 
 var app = builder.Build();
 

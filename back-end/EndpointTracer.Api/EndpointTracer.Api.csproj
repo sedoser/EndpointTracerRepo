@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EndpointTracer.DataAccess\EndpointTracer.DataAccess.csproj" />
+    <ProjectReference Include="..\EndpointTracer.Biz\EndpointTracer.Biz.csproj" />
   </ItemGroup>
 
 </Project>

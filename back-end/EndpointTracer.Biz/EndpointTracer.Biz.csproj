@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\EndpointTracer.Api\EndpointTracer.Api.csproj" />
+    <ProjectReference Include="..\EndpointTracer.DataAccess\EndpointTracer.DataAccess.csproj" />
+    <ProjectReference Include="..\EndpointTracer.Model\EndpointTracer.Model.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
