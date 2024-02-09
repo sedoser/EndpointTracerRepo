@@ -9,13 +9,9 @@ public class Certificate
     [Key]
     public int CertificateId { get; set; }
 
-    public int UserId { get; set; }
-
-    public User User { get; set; } = null!;
-
     [Required]
-    [Column(TypeName = "varchar(20)")]
-    public string Token { get; set; } = string.Empty;
+    [Column(TypeName = "varchar(3000)")]
+    public string Pem { get; set; } = string.Empty;
 
     [Required]
     public DateTime ExpirationDate{ get; set; }
@@ -29,6 +25,5 @@ public class Certificate
 
     [Required]
     [Column(TypeName = "varchar(1000)")]
-    public string Info { get; set; } = string.Empty;
-    
+    public string Info { get; set; } = string.Empty;  
 }

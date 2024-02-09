@@ -14,10 +14,7 @@ namespace EndpointTracer.DataAccess
             : base(options)
         {
 
-        }
-        
-
-        public DbSet<User> Users { get; set; }
+        }   
         public DbSet<Certificate> Certificates { get; set; }    
     }
 }

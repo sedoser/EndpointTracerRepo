@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\EndpointTracer.Api\EndpointTracer.Api.csproj" />
     <ProjectReference Include="..\EndpointTracer.DataAccess\EndpointTracer.DataAccess.csproj" />
     <ProjectReference Include="..\EndpointTracer.Model\EndpointTracer.Model.csproj" />
   </ItemGroup>

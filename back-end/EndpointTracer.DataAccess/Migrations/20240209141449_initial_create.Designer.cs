@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EndpointTracer.DataAccess.Migrations
 {
     [DbContext(typeof(EndpointTracerContext))]
-    [Migration("20240206114657_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240209141449_initial_create")]
+    partial class initial_create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,62 +43,17 @@ namespace EndpointTracer.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<string>("Token")
+                    b.Property<string>("Pem")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(3000)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("CertificateId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Certificates");
-                });
-
-            modelBuilder.Entity("EndpointTracer.Model.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EndpointTracer.Model.Certificate", b =>
-                {
-                    b.HasOne("EndpointTracer.Model.User", "User")
-                        .WithMany("Certificates")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EndpointTracer.Model.User", b =>
-                {
-                    b.Navigation("Certificates");
                 });
 #pragma warning restore 612, 618
         }
