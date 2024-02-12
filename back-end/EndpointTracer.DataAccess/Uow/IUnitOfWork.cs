@@ -7,7 +7,7 @@ namespace EndpointTracer.DataAccess.Uow
 {
    public interface IUnitOfWork
     {
-        Task CommmitAsync(CancellationToken cancellationToken=default);
+        Task CommitAsync(CancellationToken cancellationToken=default);
 
         void Commit();
     }

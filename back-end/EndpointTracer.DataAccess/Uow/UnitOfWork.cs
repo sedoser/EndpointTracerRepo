@@ -19,7 +19,7 @@ namespace EndpointTracer.DataAccess.Uow
             _context.SaveChanges();
         }
 
-        public async Task CommmitAsync(CancellationToken cancellationToken =default)
+        public async Task CommitAsync(CancellationToken cancellationToken =default)
         {
             await _context.SaveChangesAsync(cancellationToken);
         }

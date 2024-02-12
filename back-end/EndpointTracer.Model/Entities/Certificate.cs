@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
+using System.Text.Json.Serialization;
+using EndpointTracer.Model.Entities;
 
 namespace EndpointTracer.Model;
 
@@ -25,5 +27,8 @@ public class Certificate
 
     [Required]
     [Column(TypeName = "varchar(1000)")]
-    public string Info { get; set; } = string.Empty;  
+    public string Desc { get; set; } = string.Empty;  
+
+    [JsonIgnore]
+    public ExternalDp ?ExternalDp { get; set; }
 }

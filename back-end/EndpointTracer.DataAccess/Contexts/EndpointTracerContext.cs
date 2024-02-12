@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EndpointTracer.Model;
+using EndpointTracer.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
@@ -15,6 +16,10 @@ namespace EndpointTracer.DataAccess
         {
 
         }   
-        public DbSet<Certificate> Certificates { get; set; }    
+        public DbSet<ExternalDp> ExternalDps { get; set; }  
+
+        public DbSet<EndpointAddress> EndpointAddresses { get; set; }
+
+        public DbSet<Certificate> Certificates { get; set ;}  
     }
 }

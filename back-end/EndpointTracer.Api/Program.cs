@@ -3,6 +3,7 @@ using EndpointTracer.DataAccess;
 using EndpointTracer.DataAccess.Repositories;
 using EndpointTracer.DataAccess.Uow;
 using EndpointTracer.Model;
+using EndpointTracer.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.Extensibility;
 
@@ -16,8 +17,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped(typeof(IRepository<>),typeof(EfEntityRepositoryBase<>));
-builder.Services.AddScoped<IRepository<Certificate>, EfEntityRepositoryBase<Certificate>>();
-builder.Services.AddScoped<ICertificateService, CertificateService>();
+builder.Services.AddScoped<IRepository<ExternalDp>, EfEntityRepositoryBase<ExternalDp>>();
+builder.Services.AddScoped<IExternalDpService, ExternalDpService>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddDbContext<EndpointTracerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MssqlDb"),
