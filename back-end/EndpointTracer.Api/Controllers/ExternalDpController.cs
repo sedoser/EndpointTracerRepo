@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using EndpointTracer.Api.Dtos;
 using EndpointTracer.Biz;
 using EndpointTracer.Biz.Exceptions;
 using EndpointTracer.Model;
@@ -26,15 +27,23 @@ namespace EndpointTracer.Api.Controllers
             _externalDpService = externalDpService; 
         } 
         [HttpPost("Add")]//SOR: iki tane application exception varsa. biri savechanges biri updating.
-        public async Task<IActionResult> AddAsync(ExternalDp externalDp)//requestDto
+        public async Task<IActionResult> AddAsync(ExternalDpCreationDtoWithAddresses requestDto)//requestDto
         {
             //ExternapDpCreationDto => {EXternapDp create etmek için gerekli ve yeterli olan prop'lar olsun}
 
             //ExternalDp externalDp = new(){ // //}; 
+            
             try
             {
+                ExternalDp externalDp = new ExternalDp{
+                DpName = requestDto.DpName,
+                ManagementUrl = requestDto.ManagementUrl,
+                Type = requestDto.Type,
+                Description = requestDto.Description
+            };
                 await _externalDpService.AddAsync(externalDp);
-                return Ok();// Created();
+                string uri = $"http://localhost:5167/api/ExternalDp/Add";
+                return Created(uri, externalDp);// Created();
             }
             catch(ValidationException ex)
             {
@@ -47,12 +56,12 @@ namespace EndpointTracer.Api.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(ExternalDp externalDp)
+        public async Task<ActionResult<ExternalDp>> Update(ExternalDp externalDp)
         {
             try
             {
                  await _externalDpService.Update(externalDp);
-                return Ok();
+                return Ok(externalDp);
             }
             catch(KeyNotFoundException ex)
             {
@@ -62,31 +71,39 @@ namespace EndpointTracer.Api.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+
         }
-
-
         [HttpGet("GetAll")]
-         public async Task<ActionResult<ExternalDp>> GetAllAsync()
+         public async Task<ActionResult<IEnumerable<ReturnDto>>> GetAllAsync()
         {
             // var externalDps = await _externalDpService.GetAllAsync())
-            // retunDto , List<REtunrDto> returnDtos = new(){
+            var externaDps = await _externalDpService.GetAllAsync();
 
+            // retunDto , List<REtunrDto> returnDtos = new(){
+            List<ReturnDto> returnDtos = new List<ReturnDto>();
            // }
            /*
-
            foreach item externaDps 
-
            {
-                REturnDto derturnDto = new(){
-                    
+                REturnDto derturnDto = new(){   
                 }
-
-returnDtos.Add(returnDto);
+            returnDtos.Add(returnDto);
            }
-
            return OK(returnDtos);
            */
-            return Ok(await _externalDpService.GetAllAsync());
+
+           foreach (var externaDp in externaDps)
+           {
+                ReturnDto returnDto = new ReturnDto{
+                    DpName = externaDp.DpName,
+                    ManagementUrl = externaDp.ManagementUrl,
+                    Type = externaDp.Type,
+                    Description = externaDp.Description
+                };
+                returnDtos.Add(returnDto);
+           }
+            //return Ok(await _externalDpService.GetAllAsync());
+            return Ok(returnDtos);
         }
 
         [HttpGet("{id}", Name = "GetById")]

@@ -26,7 +26,7 @@ namespace EndpointTracer.Biz
         _unitOfWork = unitOfWork;
     }
 
-        public async Task AddAsync(ExternalDp externalDp)
+        public async Task<ExternalDp> AddAsync(ExternalDp externalDp)
         {
             if (externalDp == null) 
             {
@@ -44,9 +44,10 @@ namespace EndpointTracer.Biz
             {
                 throw new ApplicationException("Error when adding the ExternalDp", ex);
             }
+            return externalDp;
             
         }
-        public async Task Update(ExternalDp externalDp)
+        public async Task<ExternalDp> Update(ExternalDp externalDp)
         {
             var existingExternalDp = await _externalDpRepository.GetByIdAsync(externalDp.ExternalDpId);
             if (existingExternalDp == null)
@@ -69,9 +70,8 @@ namespace EndpointTracer.Biz
             {
                 throw new DbUpdateException("Error when writing to database", ex);
             }
-            
+            return externalDp;
         }
-
         public async Task<IEnumerable<ExternalDp>> GetAllAsync()
         {
             return await _externalDpRepository.GetAllAsync();
@@ -87,8 +87,7 @@ namespace EndpointTracer.Biz
                     throw new IdNotFoundException(id);
                 }
                 return externalDp;
-        }
-            
+        }    
         public async Task RemoveAsync(int externalDpId)
         {
             var externalDp = await _externalDpRepository.GetByIdAsync(externalDpId);

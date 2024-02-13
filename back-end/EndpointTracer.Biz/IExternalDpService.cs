@@ -14,10 +14,10 @@ namespace EndpointTracer.Biz
 
         Task<IEnumerable<ExternalDp>> GetAllAsync();
 
-        Task AddAsync(ExternalDp externaldp);
+        Task<ExternalDp> AddAsync(ExternalDp externaldp);
 
         Task RemoveAsync(int externalDpId);
 
-        Task Update(ExternalDp externalDp);
+        Task<ExternalDp> Update(ExternalDp externalDp);
     }
 }
