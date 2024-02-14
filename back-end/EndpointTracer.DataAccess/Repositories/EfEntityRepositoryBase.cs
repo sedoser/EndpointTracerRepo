@@ -18,9 +18,10 @@ public class EfEntityRepositoryBase<Tentity> : IRepository<Tentity> where Tentit
             _dbSet = context.Set<Tentity>();
         }
 
-        public async Task AddAsync(Tentity entity)
+        public async Task<Tentity> AddAsync(Tentity entity)
         {
             await _dbSet.AddAsync(entity);
+            return entity;
         }
 
         public async Task<IEnumerable<Tentity>> GetAllAsync()
@@ -56,4 +57,6 @@ public class EfEntityRepositoryBase<Tentity> : IRepository<Tentity> where Tentit
         {
             return _dbSet.Where(predicate);
         }
+
+       
     }

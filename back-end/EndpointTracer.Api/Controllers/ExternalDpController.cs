@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using EndpointTracer.Api.Dtos;
 using EndpointTracer.Biz;
 using EndpointTracer.Biz.Exceptions;
 using EndpointTracer.Model;
@@ -23,97 +24,68 @@ namespace EndpointTracer.Api.Controllers
 
         public ExternalDpController(IExternalDpService externalDpService)
         {
-            _externalDpService = externalDpService; 
-        } 
-        [HttpPost("Add")]//SOR: iki tane application exception varsa. biri savechanges biri updating.
-        public async Task<IActionResult> AddAsync(ExternalDp externalDp)//requestDto
-        {
-            //ExternapDpCreationDto => {EXternapDp create etmek için gerekli ve yeterli olan prop'lar olsun}
-
-            //ExternalDp externalDp = new(){ // //}; 
-            try
-            {
-                await _externalDpService.AddAsync(externalDp);
-                return Ok();// Created();
-            }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            _externalDpService = externalDpService;
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update(ExternalDp externalDp)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ReturnDto>>> GetAllAsync()
         {
-            try
+            var externaDps = await _externalDpService.GetAllAsync();
+
+            List<ReturnDto> returnDtos = new List<ReturnDto>();
+
+            foreach (var externaDp in externaDps)
             {
-                 await _externalDpService.Update(externalDp);
-                return Ok();
+                ReturnDto returnDto = new ReturnDto
+                {
+                    DpName = externaDp.DpName,
+                    ManagementUrl = externaDp.ManagementUrl,
+                    Type = externaDp.Type,
+                    Description = externaDp.Description
+                };
+                returnDtos.Add(returnDto);
             }
-            catch(KeyNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return Ok(returnDtos);
         }
 
-
-        [HttpGet("GetAll")]
-         public async Task<ActionResult<ExternalDp>> GetAllAsync()
-        {
-            // var externalDps = await _externalDpService.GetAllAsync())
-            // retunDto , List<REtunrDto> returnDtos = new(){
-
-           // }
-           /*
-
-           foreach item externaDps 
-
-           {
-                REturnDto derturnDto = new(){
-                    
-                }
-
-returnDtos.Add(returnDto);
-           }
-
-           return OK(returnDtos);
-           */
-            return Ok(await _externalDpService.GetAllAsync());
-        }
-
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ExternalDp>> GetByIdAsync(int id)
         {
-            try
-            {
-                var externalDp = await _externalDpService.GetByIdAsync(id);
-                return Ok(externalDp);
-            }
-            catch(IdNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var externalDp = await _externalDpService.GetByIdAsync(id);
+
+            return Ok(externalDp);
         }
 
-        [HttpDelete("Remove/{externalDpId}")]
-        public async Task<IActionResult> Remove(int externalDpId)
+        [HttpPost]
+        public async Task<IActionResult> AddAsync(ExternalDpCreationDtoWithAddresses requestDto)
         {
-            await _externalDpService.RemoveAsync(externalDpId);
+            ExternalDp externalDp = new ExternalDp
+            {
+                DpName = requestDto.DpName,
+                ManagementUrl = requestDto.ManagementUrl,
+                Type = requestDto.Type,
+                Description = requestDto.Description
+            };
+
+            var createdExternalDp = await _externalDpService.AddAsync(externalDp);
+
+            return Created($"api/{createdExternalDp.ExternalDpId}", createdExternalDp);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ExternalDp>> Update(ExternalDp externalDp)
+        {
+            await _externalDpService.Update(externalDp);
+
+            return Ok(externalDp);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Remove(int id)
+        {
+            await _externalDpService.RemoveAsync(id);
 
             return Ok();
         }
-        
     }
 }

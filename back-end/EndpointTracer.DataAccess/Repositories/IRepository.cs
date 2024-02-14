@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EndpointTracer.Model.Entities;
 
 namespace EndpointTracer.DataAccess.Repositories
 {
@@ -14,7 +15,7 @@ namespace EndpointTracer.DataAccess.Repositories
 
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
 
-        Task AddAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity);
 
         void Remove(TEntity entity);
 
