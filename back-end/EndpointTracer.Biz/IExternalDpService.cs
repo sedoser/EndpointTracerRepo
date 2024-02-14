@@ -18,6 +18,6 @@ namespace EndpointTracer.Biz
 
         Task RemoveAsync(int externalDpId);
 
-        Task<ExternalDp> Update(ExternalDp externalDp);
+        Task<ExternalDp> Update(ExternalDp externalDp); 
     }
 }

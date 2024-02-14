@@ -32,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 //dotnet ef migrations add initial_create --project "\EndpointTracer.DataAccess" --startup-project "\EndpointTracer.Api"
 //dotnet ef database update --project "\EndpointTracer.DataAccess" --startup-project "\EndpointTracer.Api"
 app.UseHttpsRedirection();

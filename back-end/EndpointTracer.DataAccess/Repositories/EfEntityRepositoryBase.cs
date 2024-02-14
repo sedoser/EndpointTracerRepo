@@ -57,4 +57,6 @@ public class EfEntityRepositoryBase<Tentity> : IRepository<Tentity> where Tentit
         {
             return _dbSet.Where(predicate);
         }
+
+       
     }

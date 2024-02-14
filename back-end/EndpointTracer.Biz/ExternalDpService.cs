@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EndpointTracer.Biz;
 using EndpointTracer.Biz.Exceptions;
+using EndpointTracer.DataAccess;
 using EndpointTracer.DataAccess.Repositories;
 using EndpointTracer.DataAccess.Uow;
 using EndpointTracer.Model;
@@ -16,43 +17,44 @@ namespace EndpointTracer.Biz
 {
     public class ExternalDpService : IExternalDpService
     {
-      private readonly IUnitOfWork _unitOfWork;
-      private readonly IRepository<ExternalDp> _externalDpRepository;
-      
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<ExternalDp> _externalDpRepository;
 
-      public ExternalDpService(IRepository<ExternalDp> ExternalDpRepository, IUnitOfWork unitOfWork)
-    {
-        _externalDpRepository = ExternalDpRepository;
-        _unitOfWork = unitOfWork;
-    }
+
+        public ExternalDpService(IRepository<ExternalDp> ExternalDpRepository, IUnitOfWork unitOfWork)
+        {
+            _externalDpRepository = ExternalDpRepository;
+            _unitOfWork = unitOfWork;
+        }
 
         public async Task<ExternalDp> AddAsync(ExternalDp externalDp)
         {
-            if (externalDp == null) 
+            if (externalDp == null)
             {
                 throw new ArgumentNullException(nameof(externalDp));
-            }    
+            }
             if (string.IsNullOrEmpty(externalDp.DpName))
             {
-                throw new ValidationException("DpName property cannot be empty.");
+                throw new EmptyDpInputException();
             }
             try
             {
-                await _externalDpRepository.AddAsync(externalDp); await _unitOfWork.CommitAsync();//bitane m fazla
+                await _externalDpRepository.AddAsync(externalDp);
+                await _unitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Error when adding the ExternalDp", ex);
             }
             return externalDp;
-            
+
         }
         public async Task<ExternalDp> Update(ExternalDp externalDp)
         {
             var existingExternalDp = await _externalDpRepository.GetByIdAsync(externalDp.ExternalDpId);
             if (existingExternalDp == null)
             {
-                throw new KeyNotFoundException($"A ExternalDp with the ID {externalDp.ExternalDpId} was not found.");
+                throw new IdNotFoundException(externalDp.ExternalDpId);
             }
             try
             {
@@ -77,29 +79,29 @@ namespace EndpointTracer.Biz
             return await _externalDpRepository.GetAllAsync();
         }
 
-//async metotlar için CancellationToken kullanılabilir.
+        //async metotlar için CancellationToken kullanılabilir.
         public async Task<ExternalDp> GetByIdAsync(int id)
         {
             var externalDp = await _externalDpRepository.GetByIdAsync(id);
-                if (externalDp == null)
-                {
-                    //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
-                    throw new IdNotFoundException(id);
-                }
-                return externalDp;
-        }    
+            if (externalDp == null)
+            {
+                //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
+                throw new IdNotFoundException(id);
+            }
+            return externalDp;
+        }
         public async Task RemoveAsync(int externalDpId)
         {
             var externalDp = await _externalDpRepository.GetByIdAsync(externalDpId);
 
-            if(externalDp == null)
+            if (externalDp == null)
             {
-                throw new IdNotFoundException("entity not foun by key");
+                throw new IdNotFoundException(externalDpId);
             }
 
             _externalDpRepository.Remove(externalDp);
 
-            await _unitOfWork.CommitAsync();//Async 
+            await _unitOfWork.CommitAsync();
         }
     }
 }
