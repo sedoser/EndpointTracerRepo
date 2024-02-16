@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EndpointTracer.Model\EndpointTracer.Model.csproj" />
+    <ProjectReference Include="..\EndpointTracer.Core\EndpointTracer.Core.csproj" />
+  
   </ItemGroup>
 
   <ItemGroup>

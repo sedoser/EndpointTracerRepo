@@ -13,6 +13,7 @@ using EndpointTracer.Model;
 using EndpointTracer.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EndpointTracer.Api.Controllers
 {
@@ -66,7 +67,6 @@ namespace EndpointTracer.Api.Controllers
                 Type = requestDto.Type,
                 Description = requestDto.Description
             };
-
             var createdExternalDp = await _externalDpService.AddAsync(externalDp);
 
             return Created($"api/{createdExternalDp.ExternalDpId}", createdExternalDp);

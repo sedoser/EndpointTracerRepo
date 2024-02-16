@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using EndpointTracer.Core.Exceptions;
 
 namespace EndpointTracer.DataAccess.Uow
 {
@@ -16,12 +17,26 @@ namespace EndpointTracer.DataAccess.Uow
 
         public void Commit()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new UowException("Error when committing the Uow", ex);
+            }
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken =default)
         {
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new UowException("Error when committing the Uow", ex);
+            }
         }
     }   
 }

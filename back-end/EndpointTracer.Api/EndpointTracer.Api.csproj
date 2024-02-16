@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Automapper" Version="13.0.1" />
+    <PackageReference Include="Automapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EndpointTracer.DataAccess\EndpointTracer.DataAccess.csproj" />
     <ProjectReference Include="..\EndpointTracer.Biz\EndpointTracer.Biz.csproj" />
+    <ProjectReference Include="..\EndpointTracer.Core\EndpointTracer.Core.csproj" />
   </ItemGroup>
 
 </Project>

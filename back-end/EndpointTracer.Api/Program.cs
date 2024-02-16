@@ -1,4 +1,5 @@
 using EndpointTracer.Biz;
+using EndpointTracer.Core.Middlewares;
 using EndpointTracer.DataAccess;
 using EndpointTracer.DataAccess.Repositories;
 using EndpointTracer.DataAccess.Uow;
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+
 builder.Services.AddScoped(typeof(IRepository<>),typeof(EfEntityRepositoryBase<>));
 builder.Services.AddScoped<IRepository<ExternalDp>, EfEntityRepositoryBase<ExternalDp>>();
 builder.Services.AddScoped<IExternalDpService, ExternalDpService>();
@@ -32,7 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionMiddleware>();   
 //dotnet ef migrations add initial_create --project "\EndpointTracer.DataAccess" --startup-project "\EndpointTracer.Api"
 //dotnet ef database update --project "\EndpointTracer.DataAccess" --startup-project "\EndpointTracer.Api"
 app.UseHttpsRedirection();

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EndpointTracer.Biz;
 using EndpointTracer.Biz.Exceptions;
+using EndpointTracer.Core.Exceptions;
 using EndpointTracer.DataAccess;
 using EndpointTracer.DataAccess.Repositories;
 using EndpointTracer.DataAccess.Uow;
@@ -31,21 +32,17 @@ namespace EndpointTracer.Biz
         {
             if (externalDp == null)
             {
-                throw new ArgumentNullException(nameof(externalDp));
+                throw new CustomException("ExternalDp name cannot be null.");
             }
             if (string.IsNullOrEmpty(externalDp.DpName))
             {
-                throw new EmptyDpInputException();
+                throw new CustomException("ExternalDp name cannot be empty.");
             }
-            try
-            {
-                await _externalDpRepository.AddAsync(externalDp);
-                await _unitOfWork.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error when adding the ExternalDp", ex);
-            }
+
+            await _externalDpRepository.AddAsync(externalDp);
+
+            await _unitOfWork.CommitAsync();
+
             return externalDp;
 
         }
@@ -54,24 +51,13 @@ namespace EndpointTracer.Biz
             var existingExternalDp = await _externalDpRepository.GetByIdAsync(externalDp.ExternalDpId);
             if (existingExternalDp == null)
             {
-                throw new IdNotFoundException(externalDp.ExternalDpId);
+                throw new CustomException($"ExternalDp not found by id:{externalDp.ExternalDpId}.");
             }
-            try
-            {
-                _externalDpRepository.Update(externalDp);
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error updating the ExternalDp", ex);
-            }
-            try
-            {
-                await _unitOfWork.CommitAsync();
-            }
-            catch (DbException ex)
-            {
-                throw new DbUpdateException("Error when writing to database", ex);
-            }
+
+            _externalDpRepository.Update(externalDp);
+
+            await _unitOfWork.CommitAsync();
+
             return externalDp;
         }
         public async Task<IEnumerable<ExternalDp>> GetAllAsync()
@@ -86,7 +72,7 @@ namespace EndpointTracer.Biz
             if (externalDp == null)
             {
                 //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
-                throw new IdNotFoundException(id);
+                throw new CustomException($"ExternalDp not found with id:{id}.");
             }
             return externalDp;
         }
@@ -96,7 +82,7 @@ namespace EndpointTracer.Biz
 
             if (externalDp == null)
             {
-                throw new IdNotFoundException(externalDpId);
+                throw new CustomException($"ExternalDp not found with id:{externalDpId}.");
             }
 
             _externalDpRepository.Remove(externalDp);

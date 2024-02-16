@@ -1,0 +1,15 @@
+{
+    "externalDpId" : 100,
+    "dpName": " fast-tcmb-sorgu-mpgw",
+    "managementUrl": "https://mgmt-kxesadpwd1.isbank:9090/service/MPGateway/fast-tcmb-sorgu-mpgw",
+    "type": "SOAP",
+    "description": "Fast sistemi sorgu servisidir. Sertifikaları şu şu yöntemle temin edilebilir.",
+    "endpointAddresses": [
+      {
+        "externalDpId" : 100,
+        "endpoint": "https://172.27.2.21:443/FASTQS/services/sorgu",
+        "datapower": "https://externalwebservicesuat.gm.isbank.com.tr:8011",
+        "env": "dev"
+      }
+    ]
+  }
