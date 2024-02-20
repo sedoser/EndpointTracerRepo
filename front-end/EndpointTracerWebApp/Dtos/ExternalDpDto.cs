@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EndpointTracer.Api.Dtos
+namespace EndpointTracerWebApp.Dtos
 {
-    public class ReturnDto
+    public class ExternalDpDto
     {
         public int Id { get; set; }
         public string DpName { get; set; } = null!;

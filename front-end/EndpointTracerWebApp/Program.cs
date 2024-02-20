@@ -1,7 +1,21 @@
+using EndpointTracerWebApp.Controllers;
+using EndpointTracerWebApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IExternalDpApiService, ExternalDpApiService>(client =>
+{
+   var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+    if (string.IsNullOrWhiteSpace(baseUrl))
+    {
+        throw new InvalidOperationException("ApiSettings:BaseUrl configuration is missing.");
+    }
+
+    client.BaseAddress = new Uri(baseUrl);
+});
 
 var app = builder.Build();
 

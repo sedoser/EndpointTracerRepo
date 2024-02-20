@@ -39,6 +39,7 @@ namespace EndpointTracer.Api.Controllers
             {
                 ReturnDto returnDto = new ReturnDto
                 {
+                    Id = externaDp.ExternalDpId,
                     DpName = externaDp.DpName,
                     ManagementUrl = externaDp.ManagementUrl,
                     Type = externaDp.Type,

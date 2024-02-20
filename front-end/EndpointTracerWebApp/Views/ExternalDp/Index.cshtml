@@ -1,0 +1,55 @@
+@model IEnumerable<EndpointTracerWebApp.Dtos.ExternalDpDto>
+
+@{
+    ViewData["Title"] = "External DataPower Entities";
+}
+<div class="content" style="margin-bottom: 5rem;">
+<h2>External DataPower Entities</h2>
+@foreach (var dp in Model)
+{   
+    <div style="display: flex; align-items: start; padding: 1rem; justify-content: flex-start;">    
+    <div class="dp-item" style="background-color: #f0f0f0;">
+        <div class="dp-header" style="cursor:pointer;  font-size: 1.2rem;">
+            @dp.DpName <i class="arrow fas fa-chevron-down" style="font-size: 1.2rem;"></i>
+        </div>  
+        <div class="dp-details collapse" style="background-color: #007bff; color: white; padding: 0.5rem; font-size: 1.2em; ">
+            <p style="border-bottom: 1px solid white; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">Description: @dp.Description</p>
+            <p style="border-bottom: 1px solid white; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">Management URL: @dp.ManagementUrl</p>
+            <p style="padding-bottom: 0.5rem; margin-bottom: 0.5rem;">Type: @dp.Type</p>
+            <div class="buttons" style="display: flex; align-items: start; justify-content: flex-start;">
+                <button type="button" class="btn btn-danger delete-btn" data-dpid="@dp.Id">Delete</button>
+                <button type="button" class="btn btn-info" data-dpid="@dp.Id" style="margin-left: 1rem;" >Info</button>
+            </div>
+            
+        </div>
+        </div>
+    </div>
+}
+</div>
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('.dp-header').click(function () {
+                var $details = $(this).next('.dp-details');
+                $details.toggleClass('collapse');
+                $(this).find('.arrow').toggleClass('fa-chevron-down fa-chevron-up');
+            });
+        });
+        $(document).ready(function() {
+            $('.delete-btn').click(function() {
+                var dpId = $(this).data('dpid');
+                if (confirm('Are you sure you want to delete this item?')) {
+                    $.ajax({
+                        url: dpId,
+                        type: 'DELETE',
+                        success: function(result) {
+                            $('#dp-item-' + dpId).remove();
+                            location.reload();
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+}
