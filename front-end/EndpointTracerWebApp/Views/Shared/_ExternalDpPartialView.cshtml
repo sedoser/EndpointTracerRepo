@@ -1,0 +1,48 @@
+@model EndpointTracerWebApp.Dtos.ExternalDpDtoWithEndpointDetails
+
+<div class="external-dp-details">
+    <h5>@Model.DpName</h5>
+    <p><strong>Management URL:</strong> @Model.ManagementUrl</p>
+    <p><strong>Type:</strong> @Model.Type</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+
+    <h6>Endpoint Addresses</h6>
+    @if (Model.EndpointAddresses.Any())
+    {
+        <ul>
+            @foreach (var address in Model.EndpointAddresses)
+            {
+                <li>
+                    <p>Endpoint: @address.Endpoint</p>
+                    <p>DataPower: @address.Datapower</p>
+                    <p>Environment: @address.Env</p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No endpoint addresses found.</p>
+    }
+
+    <h6>Certificates</h6>
+    @if (Model.Certificates.Any())
+    {
+        <ul>
+            @foreach (var certificate in Model.Certificates)
+            {
+                <li>
+                    <p>PEM: @certificate.Pem</p>
+                    <p>Expiration Date: @certificate.ExpirationDate.ToString("yyyy-MM-dd")</p>
+                    <p>Created At: @certificate.CreatedAt.ToString("yyyy-MM-dd")</p>
+                    <p>Type: @certificate.Type</p>
+                    <p>Description: @certificate.Desc</p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No certificates found.</p>
+    }
+</div>

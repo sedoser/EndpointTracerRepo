@@ -8,8 +8,8 @@ namespace EndpointTracerWebApp.Services
 {
     public interface IExternalDpApiService
     {
-        Task<List<ExternalDpDto>> GetExternalDpsAsync();
+        Task<List<ExternalDpDtoWithoutEndpointDetails>> GetExternalDpsAsync();
         Task<bool> RemoveAsync(int externalDpId); 
-        Task<ExternalDpDto> GetbyIdAsync(int externalDpId);
+        Task<ExternalDpDtoWithEndpointDetails> GetbyIdAsync(int externalDpId);
     }      
 }

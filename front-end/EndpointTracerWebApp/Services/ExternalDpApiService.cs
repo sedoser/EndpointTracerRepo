@@ -15,15 +15,15 @@ namespace EndpointTracerWebApp.Services
             _client = client;
         }
 
-        public async Task<ExternalDpDto> GetbyIdAsync(int externalDpId)
+        public async Task<ExternalDpDtoWithEndpointDetails> GetbyIdAsync(int externalDpId)
         {
-            var response = await _client.GetFromJsonAsync<ExternalDpDto>(_client.BaseAddress + "ExternalDp/" + externalDpId);
+            var response = await _client.GetFromJsonAsync<ExternalDpDtoWithEndpointDetails>(_client.BaseAddress + "ExternalDp/" + externalDpId);
             return response!;
         }
 
-        public async Task<List<ExternalDpDto>> GetExternalDpsAsync()
+        public async Task<List<ExternalDpDtoWithoutEndpointDetails>> GetExternalDpsAsync()
         {
-            var response = await _client.GetFromJsonAsync<List<ExternalDpDto>>(_client.BaseAddress + "ExternalDp");
+            var response = await _client.GetFromJsonAsync<List<ExternalDpDtoWithoutEndpointDetails>>(_client.BaseAddress + "ExternalDp");
             return response!;
         }
 

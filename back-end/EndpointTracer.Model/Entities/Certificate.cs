@@ -30,5 +30,5 @@ public class Certificate
     public string Desc { get; set; } = string.Empty;  
 
     [JsonIgnore]
-    public ExternalDp ?ExternalDp { get; set; }
+    public ExternalDp ExternalDp { get; set; }
 }

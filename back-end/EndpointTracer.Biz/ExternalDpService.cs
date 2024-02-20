@@ -67,9 +67,18 @@ namespace EndpointTracer.Biz
 
         //async metotlar için CancellationToken kullanılabilir.
         public async Task<ExternalDp> GetByIdAsync(int id)
-        {
-            var externalDp = await _externalDpRepository.GetByIdAsync(id);
+        {/*
+            var externalDp =  await _externalDpRepository.GetByIdAsync(id);
             if (externalDp == null)
+            {
+                //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
+                throw new CustomException($"ExternalDp not found with id:{id}.");
+            }
+            return externalDp;
+            */
+
+            var externalDp = await _externalDpRepository.Where(x => x.ExternalDpId == id).Include(x=>x.EndpointAddresses).Include(x=>x.Certificates).FirstOrDefaultAsync();  
+             if (externalDp == null)
             {
                 //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
                 throw new CustomException($"ExternalDp not found with id:{id}.");

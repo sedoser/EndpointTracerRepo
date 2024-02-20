@@ -1,11 +1,11 @@
-@model IEnumerable<EndpointTracerWebApp.Dtos.ExternalDpDto>
+@model EndpointTracerWebApp.Models.ExternalDpViewModel
 
 @{
     ViewData["Title"] = "External DataPower Entities";
 }
 <div class="content" style="margin-bottom: 5rem;">
 <h2>External DataPower Entities</h2>
-@foreach (var dp in Model)
+@foreach (var dp in Model.ExternalDps)
 {   
     <div style="display: flex; align-items: start; padding: 1rem; justify-content: flex-start;">    
     <div class="dp-item" style="background-color: #f0f0f0;">
@@ -18,7 +18,7 @@
             <p style="padding-bottom: 0.5rem; margin-bottom: 0.5rem;">Type: @dp.Type</p>
             <div class="buttons" style="display: flex; align-items: start; justify-content: flex-start;">
                 <button type="button" class="btn btn-danger delete-btn" data-dpid="@dp.Id">Delete</button>
-                <button type="button" class="btn btn-info" data-dpid="@dp.Id" style="margin-left: 1rem;" >Info</button>
+                <button type="button" class="btn btn-info" data-dpid="@dp.Id" style="margin-left: 1rem;">Info</button>
             </div>
             
         </div>
@@ -26,6 +26,22 @@
     </div>
 }
 </div>
+<div class="modal fade" id="externalDpDetailModal" tabindex="-1" role="dialog" aria-labelledby="externalDpDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="externalDpDetailModalLabel">ExternalDp Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
 
     <script>
@@ -42,13 +58,29 @@
                 if (confirm('Are you sure you want to delete this item?')) {
                     $.ajax({
                         url: dpId,
-                        type: 'DELETE',
+                        method: 'DELETE',
                         success: function(result) {
                             $('#dp-item-' + dpId).remove();
                             location.reload();
                         },
                     });
                 }
+            });
+        });
+        $(document).ready(function () {
+            $('.btn-info').click(function () {
+                var dpId = $(this).data('dpid');
+                $.ajax({
+                    url: dpId,
+                    method: 'GET',
+                    success: function (data) {
+                        $('#externalDpDetailModal .modal-body').html(data);
+                        $('#externalDpDetailModal').modal('show');
+                    },
+                    error: function (error) {
+                        console.error("Error fetching details:", error);
+                    }
+                });
             });
         });
     </script>
