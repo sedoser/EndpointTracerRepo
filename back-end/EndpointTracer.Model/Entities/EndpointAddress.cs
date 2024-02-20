@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EndpointTracer.Model.Entities
@@ -24,7 +25,7 @@ namespace EndpointTracer.Model.Entities
         [Required]
         [Column(TypeName = "varchar(20)")]
         public string Env { get; set; } = null!;
-
-        public ExternalDp ?ExternalDp { get; set; }
+        [JsonIgnore]
+        public ExternalDp ExternalDp { get; set; }
     }
 }

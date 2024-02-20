@@ -1,0 +1,62 @@
+[
+    {
+        "dpName": "fast-tcmb-sorgu-mpgw_UPDATED",
+        "managementUrl": "https://mgmt-kxesadpwd1.isbank:9090/service/MPGateway/fast-tcmb-sorgu-mpgw",
+        "type": "SOAP",
+        "description": "Fast sistemi sorgu servisidir. Sertifikalari su su yöntemle temin edilebilir."
+    },
+    {
+        "dpName": "denemeAdd",
+        "managementUrl": "denemeUrl",
+        "type": "denemeType",
+        "description": "denemeDescription"
+    },
+    {
+        "dpName": "denemeAdd",
+        "managementUrl": "denemeUrl",
+        "type": "denemeType",
+        "description": "denemeDescription"
+    },
+    {
+        "dpName": "denemeAdd",
+        "managementUrl": "denemeUrl",
+        "type": "denemeType",
+        "description": "denemeDescription"
+    },
+    {
+        "dpName": "string",
+        "managementUrl": "string",
+        "type": "string",
+        "description": "string"
+    },
+    {
+        "dpName": "string",
+        "managementUrl": "string",
+        "type": "string",
+        "description": "string"
+    },
+    {
+        "dpName": "string",
+        "managementUrl": "string",
+        "type": "string",
+        "description": "string"
+    },
+    {
+        "dpName": "string",
+        "managementUrl": "string",
+        "type": "string",
+        "description": "string"
+    },
+    {
+        "dpName": "asdasd",
+        "managementUrl": "asdasd",
+        "type": "asdasd",
+        "description": "asdasd"
+    },
+    {
+        "dpName": "string",
+        "managementUrl": "string",
+        "type": "string",
+        "description": "string"
+    }
+]

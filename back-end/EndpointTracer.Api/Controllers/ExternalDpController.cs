@@ -29,16 +29,17 @@ namespace EndpointTracer.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReturnDto>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<ExternalDpReturnToWebAppDto>>> GetAllAsync()
         {
             var externaDps = await _externalDpService.GetAllAsync();
 
-            List<ReturnDto> returnDtos = new List<ReturnDto>();
+            List<ExternalDpReturnToWebAppDto> returnDtos = new List<ExternalDpReturnToWebAppDto>();
 
             foreach (var externaDp in externaDps)
             {
-                ReturnDto returnDto = new ReturnDto
+                ExternalDpReturnToWebAppDto returnDto = new ExternalDpReturnToWebAppDto
                 {
+                    Id = externaDp.ExternalDpId,
                     DpName = externaDp.DpName,
                     ManagementUrl = externaDp.ManagementUrl,
                     Type = externaDp.Type,
@@ -75,7 +76,8 @@ namespace EndpointTracer.Api.Controllers
         [HttpPut]
         public async Task<ActionResult<ExternalDp>> Update(ExternalDp externalDp)
         {
-            await _externalDpService.Update(externalDp);
+
+            var updatedExternalDp = await _externalDpService.Update(externalDp);
 
             return Ok(externalDp);
         }
