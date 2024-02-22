@@ -7,7 +7,7 @@ namespace EndpointTracer.Api.Dtos
 {
     public class ExternalDpUpdateDto
     {
-        public int ExternalDpId { get; set; }
+        public int Id { get; set; }
         public string DpName { get; set; } = null!;
 
         public string ManagementUrl { get; set; } = null!;

@@ -116,8 +116,9 @@
             </div>
             <div class="modal-body">
                 <form id="editExternalDpForm">
+                    <input type="hidden" id="editDpId"  name="id"/>
                     <div class="form-group">
-                        <label for="editDpName">Name</label>
+                        <label for="editDpName" >Name</label>
                         <input type="text" class="form-control" id="editDpName" name="dpName">
                     </div>
                     <div class="form-group">
@@ -298,6 +299,7 @@
                 method: 'GET',
                 success: function(data) {
 
+                    $('#editDpId').val(dpId);
                     $('#editDpName').val(data.dpName);
                     $('#editManagementUrl').val(data.managementUrl);
                     $('#editType').val(data.type);
@@ -346,10 +348,11 @@
             });
         });
 
+
         $('#updateExternalDp').click(function() {
             var formData = $('#editExternalDpForm').serialize();
             $.ajax({
-                url: '',
+                url: 'Update',
                 method: 'PUT',
                 data: formData,
                 success: function(response) {
