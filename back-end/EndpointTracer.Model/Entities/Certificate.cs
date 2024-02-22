@@ -9,7 +9,7 @@ namespace EndpointTracer.Model;
 public class Certificate
 {
     [Key]
-    public int CertificateId { get; set; }
+    public int ?CertificateId { get; set; }
 
     [Required]
     [Column(TypeName = "varchar(3000)")]
@@ -28,7 +28,7 @@ public class Certificate
     [Required]
     [Column(TypeName = "varchar(1000)")]
     public string Desc { get; set; } = string.Empty;  
-
+    public int ExternalDpId { get; set; }
     [JsonIgnore]
-    public ExternalDp ExternalDp { get; set; }
+    public ExternalDp ExternalDp { get; set; } = null!;
 }

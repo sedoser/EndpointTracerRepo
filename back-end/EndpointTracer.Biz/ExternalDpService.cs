@@ -48,46 +48,34 @@ namespace EndpointTracer.Biz
         }
         public async Task<ExternalDp> Update(ExternalDp externalDp)
         {
-            var existingExternalDp = await _externalDpRepository.GetByIdAsync(externalDp.ExternalDpId);
+            var existingExternalDp = await _externalDpRepository.Where(x => x.ExternalDpId == externalDp.ExternalDpId).Include(x=>x.EndpointAddresses).Include(x=>x.Certificates).FirstOrDefaultAsync(); 
             if (existingExternalDp == null)
             {
                 throw new CustomException($"ExternalDp not found by id:{externalDp.ExternalDpId}.");
             }
 
-            _externalDpRepository.Update(externalDp);
+            ExternalDp updatedExternalDp = _externalDpRepository.Update(externalDp);
 
             await _unitOfWork.CommitAsync();
 
-            return externalDp;
+            return updatedExternalDp;
         }
         public async Task<IEnumerable<ExternalDp>> GetAllAsync()
         {
             return await _externalDpRepository.GetAllAsync();
         }
-
-        //async metotlar için CancellationToken kullanılabilir.
         public async Task<ExternalDp> GetByIdAsync(int id)
-        {/*
-            var externalDp =  await _externalDpRepository.GetByIdAsync(id);
-            if (externalDp == null)
-            {
-                //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
-                throw new CustomException($"ExternalDp not found with id:{id}.");
-            }
-            return externalDp;
-            */
-
+        {
             var externalDp = await _externalDpRepository.Where(x => x.ExternalDpId == id).Include(x=>x.EndpointAddresses).Include(x=>x.Certificates).FirstOrDefaultAsync();  
              if (externalDp == null)
             {
-                //@todo:Custom bir exception sınıfı yazılacak. for ex: CustomException
                 throw new CustomException($"ExternalDp not found with id:{id}.");
             }
             return externalDp;
         }
         public async Task RemoveAsync(int externalDpId)
         {
-            var externalDp = await _externalDpRepository.GetByIdAsync(externalDpId);
+            var externalDp = await _externalDpRepository.Where(x => x.ExternalDpId == externalDpId).Include(x=>x.EndpointAddresses).Include(x=>x.Certificates).FirstOrDefaultAsync();  
 
             if (externalDp == null)
             {

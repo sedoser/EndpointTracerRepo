@@ -25,30 +25,13 @@ namespace EndpointTracerWebApp.Controllers
         }
 
         [HttpGet("Index")]
-        public async Task<IActionResult> Index()//karisik olmus olabilir sadelestirilebilir
+        public async Task<IActionResult> Index()
         {
             var externalDps = await _externalDpService.GetExternalDpsAsync();
-            /*
-            var externalDpDetailed = new ExternalDpDtoWithEndpointDetails();
+
             var externalDpViewModel = new ExternalDpViewModel
             {
                 ExternalDps = externalDps,
-                ExternalDpDetailed = externalDpDetailed
-            };
-            */
-            /*
-            List<ExternalDpDtoWithEndpointDetails> externalDpsDetailedList = new List<ExternalDpDtoWithEndpointDetails>();
-            foreach (var externalDp in externalDps)
-            {
-                var externalDpId = externalDp.Id;
-                var externalDpDetailed = await _externalDpService.GetbyIdAsync(externalDpId);
-                externalDpsDetailedList.Add(externalDpDetailed);
-            }
-            */
-            var externalDpViewModel = new ExternalDpViewModel
-            {
-                ExternalDps = externalDps,
-                //ExternalDpsDetailed = externalDpsDetailedList
             };
             
             return View(externalDpViewModel);
@@ -60,8 +43,6 @@ namespace EndpointTracerWebApp.Controllers
             var externalDp = await _externalDpService.GetbyIdAsync(externalDpId);
             return PartialView("_ExternalDpPartialView" , externalDp);
         }
-        
-        
         [HttpGet("Error")]
         public IActionResult Error()
         {
@@ -73,6 +54,18 @@ namespace EndpointTracerWebApp.Controllers
         {
             await _externalDpService.RemoveAsync(externalDpId);
             return NoContent();
+        }
+        [HttpPut]
+        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> UpdateAsync(ExternalDpDtoWithEndpointDetails externalDp)
+        {
+            var updatedExternalDp = await _externalDpService.UpdateAsync(externalDp);
+            return Ok(updatedExternalDp);
+        }
+        [HttpPost("Add")]
+        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> AddAsync(ExternalDpDtoWithEndpointDetails externalDp)
+        {
+            var addedExternalDp = await _externalDpService.AddAsync(externalDp);
+            return PartialView("_ExternalDpPartialView", addedExternalDp);
         }
     }
 }

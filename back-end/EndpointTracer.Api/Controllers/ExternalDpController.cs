@@ -66,7 +66,21 @@ namespace EndpointTracer.Api.Controllers
                 DpName = requestDto.DpName,
                 ManagementUrl = requestDto.ManagementUrl,
                 Type = requestDto.Type,
-                Description = requestDto.Description
+                Description = requestDto.Description,
+                EndpointAddresses = requestDto.EndpointAddresses.Select(x => new EndpointAddress
+                {
+                    Endpoint = x.Endpoint,
+                    Datapower = x.Datapower,
+                    Env = x.Env
+                }).ToList(),
+                Certificates = requestDto.Certificates.Select(x => new Certificate
+                {
+                    Pem = x.Pem,
+                    ExpirationDate = x.ExpirationDate,
+                    CreatedAt = x.CreatedAt,
+                    Type = x.Type,
+                    Desc = x.Desc
+                }).ToList(),
             };
             var createdExternalDp = await _externalDpService.AddAsync(externalDp);
 
@@ -74,10 +88,33 @@ namespace EndpointTracer.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ExternalDp>> Update(ExternalDp externalDp)
+        public async Task<ActionResult<ExternalDp>> Update(ExternalDpUpdateDto externalDpDto)
         {
-
-            var updatedExternalDp = await _externalDpService.Update(externalDp);
+            ExternalDp externalDp = new ExternalDp
+            {
+                ExternalDpId = externalDpDto.ExternalDpId,
+                DpName = externalDpDto.DpName,
+                ManagementUrl = externalDpDto.ManagementUrl,
+                Type = externalDpDto.Type,
+                Description = externalDpDto.Description,
+                EndpointAddresses = externalDpDto.EndpointAddresses.Select(x => new EndpointAddress
+                {
+                    EndpointAddressId = x.EndpointAddressId,
+                    Endpoint = x.Endpoint,
+                    Datapower = x.Datapower,
+                    Env = x.Env
+                }).ToList(),
+                Certificates = externalDpDto.Certificates.Select(x => new Certificate
+                {
+                    CertificateId = x.CertificateId,
+                    Pem = x.Pem,
+                    ExpirationDate = x.ExpirationDate,
+                    CreatedAt = x.CreatedAt,
+                    Type = x.Type,
+                    Desc = x.Desc
+                }).ToList(),
+            };
+            await _externalDpService.Update(externalDp);
 
             return Ok(externalDp);
         }

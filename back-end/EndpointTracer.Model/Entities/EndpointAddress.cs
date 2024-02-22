@@ -11,8 +11,7 @@ namespace EndpointTracer.Model.Entities
     public class EndpointAddress
     {
         [Key]
-        [Required]
-        public int EndpointAddressId { get; set; }  
+        public int ?EndpointAddressId { get; set; }  
 
         [Required]
         [Column(TypeName = "varchar(200)")]
@@ -25,7 +24,8 @@ namespace EndpointTracer.Model.Entities
         [Required]
         [Column(TypeName = "varchar(20)")]
         public string Env { get; set; } = null!;
+        public int ExternalDpId { get; set; }
         [JsonIgnore]
-        public ExternalDp ExternalDp { get; set; }
+        public ExternalDp ExternalDp { get; set; } = null!;
     }
 }
