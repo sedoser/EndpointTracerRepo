@@ -33,15 +33,15 @@ namespace EndpointTracerWebApp.Controllers
             {
                 ExternalDps = externalDps,
             };
-            
+
             return View(externalDpViewModel);
         }
-        
+
         [HttpGet("{externalDpId}")]
         public async Task<IActionResult> GetByIdAsync(int externalDpId)
         {
             var externalDp = await _externalDpService.GetbyIdAsync(externalDpId);
-            return PartialView("_ExternalDpPartialView" , externalDp);
+            return Json(externalDp);
         }
         [HttpGet("Error")]
         public IActionResult Error()
@@ -55,14 +55,14 @@ namespace EndpointTracerWebApp.Controllers
             await _externalDpService.RemoveAsync(externalDpId);
             return NoContent();
         }
-        [HttpPut]
-        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> UpdateAsync(ExternalDpDtoWithEndpointDetails externalDp)
+        [HttpPut("Update")]
+        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> UpdateAsync([FromForm] ExternalDpDtoWithEndpointDetails externalDp)
         {
             var updatedExternalDp = await _externalDpService.UpdateAsync(externalDp);
             return Ok(updatedExternalDp);
         }
         [HttpPost("Add")]
-        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> AddAsync(ExternalDpDtoWithEndpointDetails externalDp)
+        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> AddAsync([FromBody] ExternalDpDtoWithEndpointDetails externalDp)
         {
             var addedExternalDp = await _externalDpService.AddAsync(externalDp);
             return PartialView("_ExternalDpPartialView", addedExternalDp);
