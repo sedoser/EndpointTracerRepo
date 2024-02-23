@@ -210,158 +210,195 @@
 
         //Add
         $(document).ready(function() {
-    $('#addEndpointAddress').on('click', function() {
-        const index = $('.endpoint-address-group').length;
-        const html = `
-            <div class="endpoint-address-group mb-3">
-                <label>Endpoint</label>
-                <input type="text" class="form-control mb-1" name="endpointAddresses[${index}].endpoint" required>
-                <label>Datapower</label>
-                <input type="text" class="form-control mb-1" name="endpointAddresses[${index}].datapower" required>
-                <label>Environment</label>
-                <input type="text" class="form-control mb-2" name="endpointAddresses[${index}].env" required>
-                <button type="button" class="btn btn-sm btn-danger remove-group">Remove</button>
-            </div>`;
-        $('#endpointAddressesSection').append(html);
-    });
-
-
-    $('#addCertificate').on('click', function() {
-        const index = $('.certificate-group').length;
-        const html = `
-            <div class="certificate-group mb-3">
-                <label>PEM</label>
-                <textarea class="form-control mb-1" name="certificates[${index}].pem" required></textarea>
-                <label>Expiration Date</label>
-                <input type="datetime-local" class="form-control mb-1" name="certificates[${index}].expirationDate" required>
-                <label>Type</label>
-                <input type="text" class="form-control mb-1" name="certificates[${index}].type" required>
-                <label>Description</label>
-                <textarea class="form-control mb-2" name="certificates[${index}].desc" required></textarea>
-                <button type="button" class="btn btn-sm btn-danger remove-group">Remove</button>
-            </div>`;
-        $('#certificatesSection').append(html);
-    });
-    $('body').on('click', '.remove-group', function() {
-        $(this).closest('.endpoint-address-group, .certificate-group').remove();
-    });
-
-    $('#resetExternalDpForm').on('click', function() {
-        $('#addExternalDpForm')[0].reset();
-        $('.endpoint-address-group, .certificate-group').remove();
-    });
-
-    $('#createExternalDp').on('click', function() {
-        const externalDp = {
-            dpName: $('#dpName').val(),
-            managementUrl: $('#managementUrl').val(),
-            type: $('#type').val(),
-            description: $('#description').val(),
-            endpointAddresses: [],
-            certificates: []
-        };
-
-        $('.endpoint-address-group').each(function(index) {
-            externalDp.endpointAddresses.push({
-                endpoint: $(`[name='endpointAddresses[${index}].endpoint']`).val(),
-                datapower: $(`[name='endpointAddresses[${index}].datapower']`).val(),
-                env: $(`[name='endpointAddresses[${index}].env']`).val(),
+            $('#addEndpointAddress').on('click', function() {
+                const index = $('.endpoint-address-group').length;
+                const html = `
+                    <div class="endpoint-address-group mb-3">
+                        <label>Endpoint</label>
+                        <input type="text" class="form-control mb-1" name="endpointAddresses[${index}].endpoint" required>
+                        <label>Datapower</label>
+                        <input type="text" class="form-control mb-1" name="endpointAddresses[${index}].datapower" required>
+                        <label>Environment</label>
+                        <input type="text" class="form-control mb-2" name="endpointAddresses[${index}].env" required>
+                        <button type="button" class="btn btn-sm btn-danger remove-group">Remove</button>
+                    </div>`;
+                $('#endpointAddressesSection').append(html);
             });
-        });
 
-        $('.certificate-group').each(function(index) {
-            externalDp.certificates.push({
-                pem: $(`[name='certificates[${index}].pem']`).val(),
-                expirationDate: $(`[name='certificates[${index}].expirationDate']`).val(),
-                type: $(`[name='certificates[${index}].type']`).val(),
-                desc: $(`[name='certificates[${index}].desc']`).val(),
+
+            $('#addCertificate').on('click', function() {
+                const index = $('.certificate-group').length;
+                const html = `
+                    <div class="certificate-group mb-3">
+                        <label>PEM</label>
+                        <textarea class="form-control mb-1" name="certificates[${index}].pem" required></textarea>
+                        <label>Expiration Date</label>
+                        <input type="datetime-local" class="form-control mb-1" name="certificates[${index}].expirationDate" required>
+                        <label>Type</label>
+                        <input type="text" class="form-control mb-1" name="certificates[${index}].type" required>
+                        <label>Description</label>
+                        <textarea class="form-control mb-2" name="certificates[${index}].desc" required></textarea>
+                        <button type="button" class="btn btn-sm btn-danger remove-group">Remove</button>
+                    </div>`;
+                $('#certificatesSection').append(html);
             });
-        });
-        $.ajax({
-            type: 'POST',
-            url: 'Add', 
-            contentType: 'application/json',
-            data: JSON.stringify(externalDp),
-            success: function(response) {
-                var addModal = bootstrap.Modal.getInstance(document.getElementById('addExternalDpModal'));
-                addModal.hide();
-            },
-            error: function(xhr, status, error) {
-                console.error("Error adding ExternalDp:", error);
-            }
-        });
-    });
-});
-        $('.edit-btn').click(function() {
-            var dpId = $(this).data('dpid');
-            $.ajax({
-                url: dpId,
-                method: 'GET',
-                success: function(data) {
+            $('body').on('click', '.remove-group', function() {
+                $(this).closest('.endpoint-address-group, .certificate-group').remove();
+            });
 
-                    $('#editDpId').val(dpId);
-                    $('#editDpName').val(data.dpName);
-                    $('#editManagementUrl').val(data.managementUrl);
-                    $('#editType').val(data.type);
-                    $('#editDescription').val(data.description);
+            $('#resetExternalDpForm').on('click', function() {
+                $('#addExternalDpForm')[0].reset();
+                $('.endpoint-address-group, .certificate-group').remove();
+            });
 
+            $('#createExternalDp').on('click', function() {
+                const externalDp = {
+                    dpName: $('#dpName').val(),
+                    managementUrl: $('#managementUrl').val(),
+                    type: $('#type').val(),
+                    description: $('#description').val(),
+                    endpointAddresses: [],
+                    certificates: []
+                };
 
-                    $('#editDpName').before(`<label for="editDpName">Name (current: ${data.dpName})</label>`);
+                $('.endpoint-address-group').each(function(index) {
+                    externalDp.endpointAddresses.push({
+                        endpoint: $(`[name='endpointAddresses[${index}].endpoint']`).val(),
+                        datapower: $(`[name='endpointAddresses[${index}].datapower']`).val(),
+                        env: $(`[name='endpointAddresses[${index}].env']`).val(),
+                    });
+                });
 
-
-                    $('#editEndpointAddressesSection').empty();
-                    $('#editCertificatesSection').empty();
-
-
-                    if (data.endpointAddresses && Array.isArray(data.endpointAddresses)) {
-                        data.endpointAddresses.forEach((address, index) => {
-                            var endpointAddressHtml = `
-                                <div class="form-group">
-                                    <label for="editEndpoint-${index}">Endpoint (current: ${address.endpoint})</label>
-                                    <input type="text" class="form-control" id="editEndpoint-${index}" name="endpointAddresses[${index}].endpoint" value="${address.endpoint}" required>
-                                    // Repeat for other properties of endpoint address with similar labels
-                                </div>
-                            `;
-                            $('#editEndpointAddressesSection').append(endpointAddressHtml);
-                        });
+                $('.certificate-group').each(function(index) {
+                    externalDp.certificates.push({
+                        pem: $(`[name='certificates[${index}].pem']`).val(),
+                        expirationDate: $(`[name='certificates[${index}].expirationDate']`).val(),
+                        type: $(`[name='certificates[${index}].type']`).val(),
+                        desc: $(`[name='certificates[${index}].desc']`).val(),
+                    });
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'Add', 
+                    contentType: 'application/json',
+                    data: JSON.stringify(externalDp),
+                    success: function(response) {
+                        var addModal = bootstrap.Modal.getInstance(document.getElementById('addExternalDpModal'));
+                        addModal.hide();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error adding ExternalDp:", error);
                     }
-
-
-                    if (data.certificates && Array.isArray(data.certificates)) {
-                        data.certificates.forEach((certificate, index) => {
-                            var certificateHtml = `
-                                <div class="form-group">
-                                    <label for="editPem-${index}">PEM (current: ${certificate.pem.substring(0, 30)}...)</label>
-                                    <textarea class="form-control" id="editPem-${index}" name="certificates[${index}].pem" required>${certificate.pem}</textarea>
-                                    // Repeat for other properties of certificate with similar labels
-                                </div>
-                            `;
-                            $('#editCertificatesSection').append(certificateHtml);
-                        });
+                });
+            });
+        });
+        $(document).ready(function() {
+            $('.edit-btn').click(function() {
+                var dpId = $(this).data('dpid');
+                $.ajax({
+                    url: dpId,
+                    method: 'GET',
+                    success: function(html) {
+                        var tempDiv = $('<div>').html(html);
+                        populateEditForm(tempDiv);
+                        var editModal = new bootstrap.Modal(document.getElementById('editExternalDpModal'));
+                        editModal.show();
+                    },
+                    error: function(error) {
+                        console.error("Error fetching ExternalDp details:", error);
                     }
-
-                    $('#editExternalDpModal').modal('show');
-                },
-                error: function(error) {
-                    console.error("Error fetching ExternalDp details:", error);
-                }
+                });
+            });
+            $(document).on('click', '.add-endpoint-address', function() {
+                addEndpointAddress($('#editEndpointAddressesSection .endpoint-address-group').length);
+            });
+            $(document).on('click', '.remove-endpoint-address', function() {
+                $(this).closest('.endpoint-address-group').remove();
+            });
+            $(document).on('click', '.add-certificate', function() {
+                addCertificate($('#editCertificatesSection .certificate-group').length);
+            });
+            $(document).on('click', '.remove-certificate', function() {
+                $(this).closest('.certificate-group').remove();
+            });
+            $('#updateExternalDp').click(function() {
+                var formData = $('#editExternalDpForm').serialize();
+                $.ajax({
+                    url: '', 
+                    method: 'PUT',
+                    data: formData,
+                    success: function(response) {
+                        $('#editExternalDpModal').modal('hide');
+                    },
+                    error: function(error) {
+                        console.error("Error updating ExternalDp:", error);
+                    }
+                });
             });
         });
 
+        function populateEditForm(htmlContent) {
+            $('#editEndpointAddressesSection').empty();
+            $('#editCertificatesSection').empty();
 
-        $('#updateExternalDp').click(function() {
-            var formData = $('#editExternalDpForm').serialize();
-            $.ajax({
-                url: 'Update',
-                method: 'PUT',
-                data: formData,
-                success: function(response) {
-                    $('#editExternalDpModal').modal('hide');
-                },
-                error: function(error) {
-                    console.error("Error updating ExternalDp:", error);
-                }
+            var dpName = htmlContent.find('.external-dp-details h5').text();
+            var managementUrl = htmlContent.find('p:contains("Management URL")').text().split('Management URL: ')[1];
+            var type = htmlContent.find('p:contains("Type")').text().split('Type: ')[1];
+            var description = htmlContent.find('p:contains("Description")').text().split('Description: ')[1];
+
+            $('#editDpName').val(dpName);
+            $('#editManagementUrl').val(managementUrl);
+            $('#editType').val(type);
+            $('#editDescription').val(description);
+
+            htmlContent.find('.external-dp-details ul').first().find('li').each(function(index) {
+                var endpoint = $(this).find('p').eq(0).text().split('Endpoint: ')[1];
+                var datapower = $(this).find('p').eq(1).text().split('DataPower: ')[1];
+                var env = $(this).find('p').eq(2).text().split('Environment: ')[1];
+                addEndpointAddress(index, endpoint, datapower, env);
             });
-        });
-    </script>
+            $('#editEndpointAddressesSection').append('<button type="button" class="btn btn-primary btn-sm add-endpoint-address">Add New Endpoint Address</button>');
+
+            htmlContent.find('.external-dp-details ul').last().find('li').each(function(index) {
+                var pem = $(this).find('p').eq(0).text().split('PEM: ')[1];
+                var expirationDate = $(this).find('p').eq(1).text().split('Expiration Date: ')[1];
+                var createdAt = $(this).find('p').eq(2).text().split('Created At: ')[1];
+                var type = $(this).find('p').eq(3).text().split('Type: ')[1];
+                var desc = $(this).find('p').eq(4).text().split('Description: ')[1];
+                addCertificate(index, pem, expirationDate, createdAt, type, desc);
+            });
+            $('#editCertificatesSection').append('<button type="button" class="btn btn-primary btn-sm add-certificate">Add New Certificate</button>');
+        }
+
+        function addEndpointAddress(index, endpoint = '', datapower = '', env = '') {
+            var endpointHtml = `
+                <div class="endpoint-address-group mb-3" data-index="${index}">
+                    <label>Endpoint</label>
+                    <input type="text" class="form-control mb-2" name="endpointAddresses[${index}].endpoint" value="${endpoint}" required>
+                    <label>DataPower</label>
+                    <input type="text" class="form-control mb-2" name="endpointAddresses[${index}].datapower" value="${datapower}" required>
+                    <label>Environment</label>
+                    <input type="text" class="form-control mb-2" name="endpointAddresses[${index}].env" value="${env}" required>
+                    <button type="button" class="btn btn-danger btn-sm remove-endpoint-address">Remove</button>
+                </div>`;
+            $('#editEndpointAddressesSection').append(endpointHtml);
+        }
+
+        function addCertificate(index, pem = '', expirationDate = '', createdAt = '', type = '', desc = '') {
+            var certificateHtml = `
+                <div class="certificate-group mb-3" data-index="${index}">
+                    <label>PEM</label>
+                    <textarea class="form-control mb-2" name="certificates[${index}].pem" required>${pem}</textarea>
+                    <label>Expiration Date</label>
+                    <input type="date" class="form-control mb-2" name="certificates[${index}].expirationDate" value="${expirationDate}" required>
+                    <label>Type</label>
+                    <input type="text" class="form-control mb-2" name="certificates[${index}].type" value="${type}" required>
+                    <label>Description</label>
+                    <textarea class="form-control mb-2" name="certificates[${index}].desc" required>${desc}</textarea>
+                    <button type="button" class="btn btn-danger btn-sm remove-certificate">Remove</button>
+                </div>`;
+            $('#editCertificatesSection').append(certificateHtml);
+        }
+
+</script>
 }

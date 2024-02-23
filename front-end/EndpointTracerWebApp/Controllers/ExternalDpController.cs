@@ -41,7 +41,7 @@ namespace EndpointTracerWebApp.Controllers
         public async Task<IActionResult> GetByIdAsync(int externalDpId)
         {
             var externalDp = await _externalDpService.GetbyIdAsync(externalDpId);
-            return Json(externalDp);
+            return PartialView("_ExternalDpPartialView", externalDp);
         }
         [HttpGet("Error")]
         public IActionResult Error()
