@@ -92,7 +92,7 @@ namespace EndpointTracer.Api.Controllers
         {
             ExternalDp externalDp = new ExternalDp
             {
-                ExternalDpId = externalDpDto.ExternalDpId,
+                ExternalDpId = externalDpDto.Id,
                 DpName = externalDpDto.DpName,
                 ManagementUrl = externalDpDto.ManagementUrl,
                 Type = externalDpDto.Type,

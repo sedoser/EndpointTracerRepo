@@ -37,6 +37,9 @@ namespace EndpointTracerWebApp.Services
         public async Task<bool> UpdateAsync(ExternalDpDtoWithEndpointDetails externalDp)
         {
             var response = await _client.PutAsJsonAsync(_client.BaseAddress + "ExternalDp", externalDp);
+
+            var responseStr = await response.Content.ReadAsStringAsync();   
+
             return response.IsSuccessStatusCode;
         }
         public async Task<ExternalDpDtoWithEndpointDetails> AddAsync(ExternalDpDtoWithEndpointDetails externalDp)
