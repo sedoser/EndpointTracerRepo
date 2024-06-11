@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EndpointTracer.Api.Dtos
+namespace EndpointTracerWebApp.Dtos
 {
     public class ExternalDpUpdateDto
     {
@@ -14,8 +14,8 @@ namespace EndpointTracer.Api.Dtos
 
         public string Type { get; set; } = null!;
 
-        public string Description { get; set; } = null!;
-        public List<EndpointAddressesDetailsDto> EndpointAddresses { get; set; } = null!;
-        public List<CertificatesDetailsDto> Certificates { get; set; } = null!;
+        public string Description { get; set; } = null!; 
+        public List<EndpointAddressesDetailsDto> EndpointAddresses { get; set; } = new List<EndpointAddressesDetailsDto>();
+        public List<CertificatesDetailsDto> Certificates { get; set; } = new List<CertificatesDetailsDto>();
     }
 }

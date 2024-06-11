@@ -32,7 +32,7 @@ namespace EndpointTracer.Api.Controllers
         public async Task<ActionResult<IEnumerable<ExternalDpReturnToWebAppDto>>> GetAllAsync()
         {
             var externaDps = await _externalDpService.GetAllAsync();
-
+            //var externalDp = mapper.Map<ExternalDp>(requestDto);
             List<ExternalDpReturnToWebAppDto> returnDtos = new List<ExternalDpReturnToWebAppDto>();
 
             foreach (var externaDp in externaDps)
@@ -61,6 +61,9 @@ namespace EndpointTracer.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync(ExternalDpCreationDtoWithAddresses requestDto)
         {
+                //Schedule tasks. => Quartz, Hangfire, etc.
+            //IMapper mapper = new Mapper(); ctor injection -d    
+            //var externalDp = mapper.Map<ExternalDp>(requestDto);
             ExternalDp externalDp = new ExternalDp
             {
                 DpName = requestDto.DpName,
@@ -92,7 +95,7 @@ namespace EndpointTracer.Api.Controllers
         {
             ExternalDp externalDp = new ExternalDp
             {
-                ExternalDpId = externalDpDto.Id,
+                ExternalDpId = externalDpDto.ExternalDpId,
                 DpName = externalDpDto.DpName,
                 ManagementUrl = externalDpDto.ManagementUrl,
                 Type = externalDpDto.Type,

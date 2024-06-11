@@ -48,11 +48,6 @@ namespace EndpointTracer.Biz
         }
         public async Task<ExternalDp> Update(ExternalDp externalDp)
         {
-            var existingExternalDp = await _externalDpRepository.Where(x => x.ExternalDpId == externalDp.ExternalDpId).Include(x=>x.EndpointAddresses).Include(x=>x.Certificates).FirstOrDefaultAsync(); 
-            if (existingExternalDp == null)
-            {
-                throw new CustomException($"ExternalDp not found by id:{externalDp.ExternalDpId}.");
-            }
 
             ExternalDp updatedExternalDp = _externalDpRepository.Update(externalDp);
 

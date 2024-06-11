@@ -1,18 +1,20 @@
 @model EndpointTracerWebApp.Dtos.ExternalDpDtoWithEndpointDetails
 
-<div class="external-dp-details">
+<div class="external-dp-details" style="margin-bottom: 20px;">
     <h5>@Model.DpName</h5>
     <p><strong>Management URL:</strong> @Model.ManagementUrl</p>
     <p><strong>Type:</strong> @Model.Type</p>
     <p><strong>Description:</strong> @Model.Description</p>
 
-    <h6>Endpoint Addresses</h6>
+    <hr style="margin-top: 20px; margin-bottom: 20px;">
+
+    <h6 style="color: #00308F;">Endpoint Addresses</h6>
     @if (Model.EndpointAddresses.Any())
     {
-        <ul>
+        <ul style="list-style-type: none; padding: 0;">
             @foreach (var address in Model.EndpointAddresses)
             {
-                <li>
+                <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
                     <p>Endpoint: @address.Endpoint</p>
                     <p>DataPower: @address.Datapower</p>
                     <p>Environment: @address.Env</p>
@@ -25,13 +27,15 @@
         <p>No endpoint addresses found.</p>
     }
 
-    <h6>Certificates</h6>
+    <hr style="margin-top: 20px; margin-bottom: 20px;">
+
+    <h6 style="color: #00308F;">Certificates</h6>
     @if (Model.Certificates.Any())
     {
-        <ul>
+        <ul style="list-style-type: none; padding: 0;">
             @foreach (var certificate in Model.Certificates)
             {
-                <li>
+                <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
                     <p>PEM: @certificate.Pem</p>
                     <p>Expiration Date: @certificate.ExpirationDate.ToString("yyyy-MM-dd")</p>
                     <p>Created At: @certificate.CreatedAt.ToString("yyyy-MM-dd")</p>

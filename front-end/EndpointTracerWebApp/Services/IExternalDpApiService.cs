@@ -11,7 +11,7 @@ namespace EndpointTracerWebApp.Services
         Task<List<ExternalDpDtoWithoutEndpointDetails>> GetExternalDpsAsync();
         Task<bool> RemoveAsync(int externalDpId); 
         Task<ExternalDpDtoWithEndpointDetails> GetbyIdAsync(int externalDpId);
-        Task<bool> UpdateAsync(ExternalDpDtoWithEndpointDetails externalDp);
+        Task<bool> UpdateAsync(ExternalDpUpdateDto externalDp);
         Task<ExternalDpDtoWithEndpointDetails> AddAsync(ExternalDpDtoWithEndpointDetails externalDp);
     }      
 }

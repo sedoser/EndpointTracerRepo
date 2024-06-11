@@ -34,11 +34,11 @@ namespace EndpointTracerWebApp.Services
             var response = await _client.DeleteAsync(_client.BaseAddress + "ExternalDp/" + externalDpId);
             return response.IsSuccessStatusCode;
         }
-        public async Task<bool> UpdateAsync(ExternalDpDtoWithEndpointDetails externalDp)
+        public async Task<bool> UpdateAsync(ExternalDpUpdateDto externalDp)
         {
             var response = await _client.PutAsJsonAsync(_client.BaseAddress + "ExternalDp", externalDp);
 
-            var responseStr = await response.Content.ReadAsStringAsync();   
+            //var responseStr = await response.Content.ReadAsStringAsync();   
 
             return response.IsSuccessStatusCode;
         }

@@ -56,7 +56,7 @@ namespace EndpointTracerWebApp.Controllers
             return NoContent();
         }
         [HttpPut("Update")]
-        public async Task<ActionResult<ExternalDpDtoWithEndpointDetails>> UpdateAsync([FromForm] ExternalDpDtoWithEndpointDetails externalDp)
+        public async Task<ActionResult<ExternalDpUpdateDto>> UpdateAsync([FromForm] ExternalDpUpdateDto externalDp)
         {
             var updatedExternalDp = await _externalDpService.UpdateAsync(externalDp);
             return Ok(updatedExternalDp);
